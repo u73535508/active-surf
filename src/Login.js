@@ -14,12 +14,15 @@ const Login = () => {
     try {
       console.log("username", username);
       console.log("password", password);
-      const data = await axios.post("/api/signin", {
-        username: username,
-        password: password,
-      });
+      const data = await axios.post(
+        "http://active-surf-api.onrender.com/api/signin",
+        {
+          username: username,
+          password: password,
+        }
+      );
       console.log(data);
-      if (data.data.success === true) {
+      if (data.data.success) {
         navigate("/dashboard");
       }
     } catch (e) {
