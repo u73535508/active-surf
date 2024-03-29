@@ -49,23 +49,23 @@ const Dashboard = () => {
 
   const [sortOrder, setSortOrder] = useState("asc"); // Sıralama sırası state'i
   useEffect(() => {
-    axios
-      .get("https://active-surf-api.onrender.com/api/getme")
-      .then((response) => {
-        console.log("GETME", response);
-        if (response.data.success === true) {
-          setProfile(response.data.user);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          console.error("User not authenticated:", error);
-          navigate("/");
-        } else {
-          console.error("Error fetching profile:", error);
-          // Diğer hataları burada işleyebilirsiniz
-        }
-      });
+    // axios
+    //   .get("https://active-surf-api.onrender.com/api/getme")
+    //   .then((response) => {
+    //     console.log("GETME", response);
+    //     if (response.data.success === true) {
+    //       setProfile(response.data.user);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     if (error.response.status === 401) {
+    //       console.error("User not authenticated:", error);
+    //       navigate("/");
+    //     } else {
+    //       console.error("Error fetching profile:", error);
+    //       // Diğer hataları burada işleyebilirsiniz
+    //     }
+    //   });
     axios
       .get("https://active-surf-api.onrender.com/api/member/getAllMembers")
       .then((response) => {
