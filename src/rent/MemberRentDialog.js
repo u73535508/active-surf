@@ -33,7 +33,7 @@ const MemberRentDialog = ({ open, member, onClose }) => {
     const getRents = async () => {
       try {
         const response = await axios.get(
-          `/api/rent/getRentsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/rent/getRentsForMember/${member._id}`
         );
 
         setRents(response.data.rents);
@@ -53,7 +53,9 @@ const MemberRentDialog = ({ open, member, onClose }) => {
   };
   const handleDelete = async (rent) => {
     try {
-      await axios.delete(`/api/rent/deleteRent/${rent._id}`);
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/rent/deleteRent/${rent._id}`
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error deleting rent:", error);

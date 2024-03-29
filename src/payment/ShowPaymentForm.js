@@ -25,7 +25,9 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
   const [payments, setPayments] = useState([]);
   useEffect(() => {
     axios
-      .get(`/api/payment/getPaymentsForService/${service._id}`)
+      .get(
+        `https://active-surf-api.onrender.com/api/payment/getPaymentsForService/${service._id}`
+      )
       .then((response) => {
         setPayments(response.data.payments);
       });
@@ -33,48 +35,68 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
   const handleDeletePayment = async (payment) => {
     try {
       const paymentAmount = payment.amount;
-      await axios.delete(`/api/payment/deletePayment/${payment._id}`);
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/payment/deletePayment/${payment._id}`
+      );
       if (service.lessonKind) {
-        await axios.post("/api/lesson/saveLesson", {
-          ...service,
-          id: service._id,
-          isPaid: false,
-          remainingPrice: service.remainingPrice + paymentAmount,
-        });
+        await axios.post(
+          "https://active-surf-api.onrender.com/api/lesson/saveLesson",
+          {
+            ...service,
+            id: service._id,
+            isPaid: false,
+            remainingPrice: service.remainingPrice + paymentAmount,
+          }
+        );
       } else if (service.productName) {
-        await axios.post("/api/debt/saveDebt", {
-          ...service,
-          isPaid: false,
-          id: service._id,
-          remainingPrice: service.remainingPrice + paymentAmount,
-        });
+        await axios.post(
+          "https://active-surf-api.onrender.com/api/debt/saveDebt",
+          {
+            ...service,
+            isPaid: false,
+            id: service._id,
+            remainingPrice: service.remainingPrice + paymentAmount,
+          }
+        );
       } else if (service.storedPlace) {
-        await axios.post("/api/storage/saveStorage", {
-          ...service,
-          isPaid: false,
-          id: service._id,
-          remainingPrice: service.remainingPrice + paymentAmount,
-        });
+        await axios.post(
+          "https://active-surf-api.onrender.com/api/storage/saveStorage",
+          {
+            ...service,
+            isPaid: false,
+            id: service._id,
+            remainingPrice: service.remainingPrice + paymentAmount,
+          }
+        );
       } else if (service.campType) {
-        await axios.post("/api/camp/saveCamp", {
-          ...service,
-          isPaid: false,
-          id: service._id,
-          remainingPrice: service.remainingPrice + paymentAmount,
-        });
+        await axios.post(
+          "https://active-surf-api.onrender.com/api/camp/saveCamp",
+          {
+            ...service,
+            isPaid: false,
+            id: service._id,
+            remainingPrice: service.remainingPrice + paymentAmount,
+          }
+        );
       } else {
-        await axios.post("/api/rent/saveRent", {
-          ...service,
-          isPaid: false,
-          id: service._id,
-          remainingPrice: service.remainingPrice + paymentAmount,
-        });
+        await axios.post(
+          "https://active-surf-api.onrender.com/api/rent/saveRent",
+          {
+            ...service,
+            isPaid: false,
+            id: service._id,
+            remainingPrice: service.remainingPrice + paymentAmount,
+          }
+        );
       }
-      await axios.post("/api/member/saveMember", {
-        ...member,
-        id: member._id,
-        debt: member.debt + paymentAmount,
-      });
+      await axios.post(
+        "https://active-surf-api.onrender.com/api/member/saveMember",
+        {
+          ...member,
+          id: member._id,
+          debt: member.debt + paymentAmount,
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error deleting payment:", error.response.data.error);

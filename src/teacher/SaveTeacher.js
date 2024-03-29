@@ -8,9 +8,12 @@ const SaveTeacher = ({ onClose }) => {
 
   async function submitMember() {
     try {
-      await axios.post("/api/teacher/saveTeacher", {
-        name: name,
-      });
+      await axios.post(
+        "https://active-surf-api.onrender.com/api/teacher/saveTeacher",
+        {
+          name: name,
+        }
+      );
       onClose();
       window.location.reload();
     } catch (error) {

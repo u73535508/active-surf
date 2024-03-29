@@ -27,7 +27,7 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
     const getStorages = async () => {
       try {
         const response = await axios.get(
-          `/api/storage/getStoragesForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/storage/getStoragesForMember/${member._id}`
         );
 
         setStorages(response.data.storages);
@@ -55,7 +55,9 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
   };
   const handleDelete = async (storage) => {
     try {
-      await axios.delete(`/api/storage/deleteStorage/${storage._id}`);
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/storage/deleteStorage/${storage._id}`
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error deleting storage:", error);

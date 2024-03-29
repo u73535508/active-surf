@@ -20,22 +20,28 @@ const SaveStorageDialog = ({ open, onClose, member }) => {
         return;
       }
 
-      await axios.post(`/api/storage/saveStorage`, {
-        item,
-        storedPlace,
-        startDate,
-        remainingPrice: Number(price),
-        endDate,
-        price,
-        description,
-        memberId: member._id,
-        memberName: member.name,
-      });
-      await axios.post(`/api/member/saveMember`, {
-        ...member,
-        id: member._id,
-        debt: member.debt + Number(price),
-      });
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/storage/saveStorage`,
+        {
+          item,
+          storedPlace,
+          startDate,
+          remainingPrice: Number(price),
+          endDate,
+          price,
+          description,
+          memberId: member._id,
+          memberName: member.name,
+        }
+      );
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/member/saveMember`,
+        {
+          ...member,
+          id: member._id,
+          debt: member.debt + Number(price),
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error adding storage:", error);

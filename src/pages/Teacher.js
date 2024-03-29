@@ -60,7 +60,7 @@ export default function Teacher() {
   const getCampsForTeacher = async () => {
     try {
       const response = await axios.get(
-        `http://active-surf-api.onrender.com/api/camp/getCampsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/camp/getCampsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`
       );
       setCamps(response.data);
       setLessons([]);

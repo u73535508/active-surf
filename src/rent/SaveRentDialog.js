@@ -24,21 +24,27 @@ const SaveRentDialog = ({ open, member, onClose }) => {
         alert("Başlangıç tarihi bitiş tarihinden büyük olamaz.");
         return;
       }
-      await axios.post(`/api/rent/saveRent`, {
-        remainingPrice: Number(price),
-        item,
-        startDate,
-        endDate,
-        price,
-        description,
-        memberName: member.name,
-        memberId: member._id,
-      });
-      await axios.post(`/api/member/saveMember`, {
-        ...member,
-        id: member._id,
-        debt: member.debt + Number(price),
-      });
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/rent/saveRent`,
+        {
+          remainingPrice: Number(price),
+          item,
+          startDate,
+          endDate,
+          price,
+          description,
+          memberName: member.name,
+          memberId: member._id,
+        }
+      );
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/member/saveMember`,
+        {
+          ...member,
+          id: member._id,
+          debt: member.debt + Number(price),
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error adding rent:", error);
