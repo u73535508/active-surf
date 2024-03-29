@@ -38,7 +38,7 @@ export default function Storage() {
     }
     try {
       const response = await axios.get(
-        `/api/storage/getStoragesInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/storage/getStoragesInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("response.data", response.data);
       setStorages(response.data);

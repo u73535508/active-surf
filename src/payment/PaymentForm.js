@@ -55,54 +55,75 @@ export default function PaymentForm({ member, service, onClose }) {
         : "Rent";
       const serviceId = service._id;
       const memberName = member.name;
-      await axios.post(`/api/payment/savePayment`, {
-        memberId: member._id,
-        date: paymentDate,
-        amount: paymentAmount,
-        type: paymentType,
-        serviceId: serviceId,
-        serviceType: serviceType,
-        rate: rate,
-        memberName,
-      });
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/payment/savePayment`,
+        {
+          memberId: member._id,
+          date: paymentDate,
+          amount: paymentAmount,
+          type: paymentType,
+          serviceId: serviceId,
+          serviceType: serviceType,
+          rate: rate,
+          memberName,
+        }
+      );
 
       if (serviceType === "Lesson") {
-        await axios.post(`/api/lesson/saveLesson`, {
-          ...service,
-          remainingPrice: serviceRemainingPrice,
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
+          {
+            ...service,
+            remainingPrice: serviceRemainingPrice,
 
-          isPaid: isServicePaid,
-        });
+            isPaid: isServicePaid,
+          }
+        );
       } else if (serviceType === "Camp") {
-        await axios.post(`/api/camp/saveCamp`, {
-          ...service,
-          isPaid: isServicePaid,
-          remainingPrice: serviceRemainingPrice,
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/camp/saveCamp`,
+          {
+            ...service,
+            isPaid: isServicePaid,
+            remainingPrice: serviceRemainingPrice,
+          }
+        );
       } else if (serviceType === "Storage") {
-        await axios.post(`/api/storage/saveStorage`, {
-          ...service,
-          isPaid: isServicePaid,
-          remainingPrice: serviceRemainingPrice,
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/storage/saveStorage`,
+          {
+            ...service,
+            isPaid: isServicePaid,
+            remainingPrice: serviceRemainingPrice,
+          }
+        );
       } else if (serviceType === "Debt") {
-        await axios.post(`/api/debt/saveDebt`, {
-          ...service,
-          isPaid: isServicePaid,
-          remainingPrice: serviceRemainingPrice,
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/debt/saveDebt`,
+          {
+            ...service,
+            isPaid: isServicePaid,
+            remainingPrice: serviceRemainingPrice,
+          }
+        );
       } else if (serviceType === "Rent") {
-        await axios.post(`/api/rent/saveRent`, {
-          ...service,
-          isPaid: isServicePaid,
-          remainingPrice: serviceRemainingPrice,
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/rent/saveRent`,
+          {
+            ...service,
+            isPaid: isServicePaid,
+            remainingPrice: serviceRemainingPrice,
+          }
+        );
       }
       console.log("member", member);
-      await axios.post(`/api/member/saveMember`, {
-        id: member._id,
-        debt: member.debt - Number(paymentAmount),
-      });
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/member/saveMember`,
+        {
+          id: member._id,
+          debt: member.debt - Number(paymentAmount),
+        }
+      );
 
       window.location.reload();
     } catch (error) {

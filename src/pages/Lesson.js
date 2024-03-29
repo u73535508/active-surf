@@ -38,7 +38,7 @@ export default function Lesson() {
     }
     try {
       const response = await axios.get(
-        `/api/lesson/getLessonsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/lesson/getLessonsInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("Payments:", response);
       setLessons(response.data);

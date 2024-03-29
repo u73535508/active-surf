@@ -38,7 +38,7 @@ export default function Rent() {
     }
     try {
       const response = await axios.get(
-        `/api/rent/getRentsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/rent/getRentsInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("response.data", response.data);
       setRents(response.data);

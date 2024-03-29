@@ -22,7 +22,7 @@ const Teachers = () => {
 
   useEffect(() => {
     axios
-      .get("/api/teacher/getAllTeachers")
+      .get("https://active-surf-api.onrender.com/api/teacher/getAllTeachers")
       .then((response) => {
         setTeachers(response.data);
       })

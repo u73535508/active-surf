@@ -23,33 +23,48 @@ export default function DescriptionDialog({ service, onClose }) {
         : "Rent";
 
       if (serviceType === "Lesson") {
-        await axios.post(`/api/lesson/saveLesson`, {
-          ...service,
-          description,
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/lesson/saveLesson`,
+          {
+            ...service,
+            description,
+          }
+        );
       } else if (serviceType === "Storage") {
-        await axios.post(`/api/storage/saveStorage`, {
-          ...service,
+        await axios.post(
+          `https://active-surf-api.onrender.com/storage/saveStorage`,
+          {
+            ...service,
 
-          description,
-        });
+            description,
+          }
+        );
       } else if (serviceType === "Debt") {
-        await axios.post(`/api/debt/saveDebt`, {
-          ...service,
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/debt/saveDebt`,
+          {
+            ...service,
 
-          description,
-        });
+            description,
+          }
+        );
       } else if (serviceType === "Rent") {
-        await axios.post(`/api/rent/saveRent`, {
-          ...service,
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/rent/saveRent`,
+          {
+            ...service,
 
-          description,
-        });
+            description,
+          }
+        );
       } else if (serviceType === "Camp") {
-        await axios.post(`/api/camp/saveCamp`, {
-          ...service,
-          description,
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/camp/saveCamp`,
+          {
+            ...service,
+            description,
+          }
+        );
       }
 
       window.location.reload();

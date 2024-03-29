@@ -27,17 +27,20 @@ const SaveMember = ({ onClose, memberToSave }) => {
         alert("Geçerli bir TC kimlik numarası giriniz.");
         return;
       }
-      await axios.post("/api/member/saveMember", {
-        ...memberToSave,
-        id: memberToSave?._id,
-        name,
-        tc,
-        phoneNumber,
-        dateOfBirth,
-        email,
-        address,
-        accountTypes,
-      });
+      await axios.post(
+        "https://active-surf-api.onrender.com/api/member/saveMember",
+        {
+          ...memberToSave,
+          id: memberToSave?._id,
+          name,
+          tc,
+          phoneNumber,
+          dateOfBirth,
+          email,
+          address,
+          accountTypes,
+        }
+      );
       onClose();
       window.location.reload();
     } catch (error) {

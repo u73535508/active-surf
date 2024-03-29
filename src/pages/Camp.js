@@ -38,7 +38,7 @@ export default function Camp() {
     }
     try {
       const response = await axios.get(
-        `/api/camp/getCampsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/camp/getCampsInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("Camps:", response);
       setCamps(response.data);

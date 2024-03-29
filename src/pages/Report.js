@@ -46,7 +46,7 @@ export default function Report() {
     }
     try {
       const response = await axios.get(
-        `/api/payment/getPaymentsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/payment/getPaymentsInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("Payments:", response.data.payments);
       setPayments(response.data.payments);

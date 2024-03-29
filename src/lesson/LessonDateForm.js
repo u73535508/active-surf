@@ -20,22 +20,31 @@ export default function LessonDateForm({ lesson, onClose }) {
         return;
       }
       if (lesson.lessonKind) {
-        await axios.post(`/api/lesson/saveLesson`, {
-          ...lesson,
-          remainingLessonAmount: lesson.remainingLessonAmount - 1,
-          lessonDates: [...lesson.lessonDates, new Date(lessonDate)],
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
+          {
+            ...lesson,
+            remainingLessonAmount: lesson.remainingLessonAmount - 1,
+            lessonDates: [...lesson.lessonDates, new Date(lessonDate)],
+          }
+        );
       } else if (lesson.campType) {
-        await axios.post(`/api/camp/saveCamp`, {
-          ...lesson,
-          remainingCampAmount: lesson.remainingCampAmount - 1,
-          campDates: [...lesson.campDates, lessonDate],
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/camp/saveCamp`,
+          {
+            ...lesson,
+            remainingCampAmount: lesson.remainingCampAmount - 1,
+            campDates: [...lesson.campDates, lessonDate],
+          }
+        );
       } else {
-        await axios.post(`/api/rent/saveRent`, {
-          ...lesson,
-          rentDates: [...lesson.rentDates, lessonDate],
-        });
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/rent/saveRent`,
+          {
+            ...lesson,
+            rentDates: [...lesson.rentDates, lessonDate],
+          }
+        );
       }
 
       window.location.reload();

@@ -29,7 +29,9 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await axios.get("/api/teacher/getAllTeachers");
+        const response = await axios.get(
+          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers"
+        );
         setTeachers(response.data);
       } catch (error) {
         console.error("Dersler veri tabanından çekilemedi.", error);
@@ -69,12 +71,18 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
         teacherId: teacher._id,
         teacherName: teacher.name,
       };
-      await axios.post(`/api/lesson/saveLesson`, lessonData);
-      await axios.post(`/api/member/saveMember`, {
-        ...member,
-        id: member._id,
-        debt: member.debt + Number(price),
-      });
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
+        lessonData
+      );
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/member/saveMember`,
+        {
+          ...member,
+          id: member._id,
+          debt: member.debt + Number(price),
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error adding lesson:", error.response.data.error);

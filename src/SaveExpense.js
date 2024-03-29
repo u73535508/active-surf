@@ -14,13 +14,16 @@ const SaveExpense = ({ onClose }) => {
       return;
     }
     try {
-      await axios.post("/api/expense/saveExpense", {
-        expenseName,
-        price,
-        expenseDate,
+      await axios.post(
+        "https://active-surf-api.onrender.com/api/expense/saveExpense",
+        {
+          expenseName,
+          price,
+          expenseDate,
 
-        description,
-      });
+          description,
+        }
+      );
       onClose();
       window.location.reload();
     } catch (error) {

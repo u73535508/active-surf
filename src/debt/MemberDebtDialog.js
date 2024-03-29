@@ -28,7 +28,7 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
     const getDebts = async () => {
       try {
         const response = await axios.get(
-          `/api/debt/getDebtsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/debt/getDebtsForMember/${member._id}`
         );
         setDebts(response.data.debts);
       } catch (error) {
@@ -44,7 +44,9 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
 
   const handleDeleteDebt = async (debt) => {
     try {
-      await axios.delete(`/api/debt/deleteDebt/${debt._id}`);
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/debt/deleteDebt/${debt._id}`
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error deleting debt:", error);

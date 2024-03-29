@@ -14,20 +14,26 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
         alert("Tutar 0'dan büyük olmalıdır.");
         return;
       }
-      await axios.post(`/api/debt/saveDebt`, {
-        memberName: member.name,
-        debtDate: debtDate,
-        price: price,
-        productName,
-        memberId: member._id,
-        remainingPrice: Number(price),
-        description: description,
-      });
-      await axios.post(`/api/member/saveMember`, {
-        ...member,
-        id: member._id,
-        debt: member.debt + Number(price),
-      });
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/debt/saveDebt`,
+        {
+          memberName: member.name,
+          debtDate: debtDate,
+          price: price,
+          productName,
+          memberId: member._id,
+          remainingPrice: Number(price),
+          description: description,
+        }
+      );
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/member/saveMember`,
+        {
+          ...member,
+          id: member._id,
+          debt: member.debt + Number(price),
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error(error.response.data.error);

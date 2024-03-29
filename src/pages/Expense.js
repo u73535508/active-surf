@@ -24,7 +24,9 @@ export default function Expense() {
   const [expenses, setExpenses] = useState([]);
   const handleDeleteExpense = async (expenseId) => {
     try {
-      await axios.delete(`/api/expense/deleteExpense/${expenseId}`);
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/expense/deleteExpense/${expenseId}`
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error deleting expense:", error);
@@ -42,7 +44,7 @@ export default function Expense() {
     }
     try {
       const response = await axios.get(
-        `/api/expense/getExpensesInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/expense/getExpensesInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("response", response);
       setExpenses(response.data.expenses);

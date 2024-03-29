@@ -21,7 +21,9 @@ export default function Member() {
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const response = await axios.get(`/api/member/getMember/${id}`);
+        const response = await axios.get(
+          `https://active-surf-api.onrender.com/api/member/getMember/${id}`
+        );
         setMember(response.data.member);
       } catch (error) {
         console.error("Error getting member:", error.response.data.error);

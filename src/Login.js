@@ -15,7 +15,7 @@ const Login = () => {
       console.log("username", username);
       console.log("password", password);
       const data = await axios.post(
-        "http://active-surf-api.onrender.com/api/signin",
+        "https://active-surf-api.onrender.com/api/signin",
         {
           username: username,
           password: password,

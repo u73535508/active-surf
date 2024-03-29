@@ -27,7 +27,10 @@ const LessonDates = ({ lesson, onClose }) => {
           lessonDates: updatedDates,
           remainingLessonAmount: lesson.remainingLessonAmount + 1,
         };
-        await axios.post(`/api/lesson/saveLesson`, updatedLesson);
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
+          updatedLesson
+        );
       } else if (lesson.campType) {
         const updatedDates = lesson.campDates.filter((date, i) => i !== index);
         const updatedLesson = {
@@ -35,14 +38,20 @@ const LessonDates = ({ lesson, onClose }) => {
           campDates: updatedDates,
           remainingCampAmount: lesson.remainingCampAmount + 1,
         };
-        await axios.post(`/api/camp/saveCamp`, updatedLesson);
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/camp/saveCamp`,
+          updatedLesson
+        );
       } else {
         const updatedDates = lesson.rentDates.filter((date, i) => i !== index);
         const updatedLesson = {
           ...lesson,
           rentDates: updatedDates,
         };
-        await axios.post(`/api/rent/saveRent`, updatedLesson);
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/rent/saveRent`,
+          updatedLesson
+        );
       }
 
       window.location.reload();

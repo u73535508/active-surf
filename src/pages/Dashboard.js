@@ -50,7 +50,7 @@ const Dashboard = () => {
   const [sortOrder, setSortOrder] = useState("asc"); // Sıralama sırası state'i
   useEffect(() => {
     axios
-      .get("/api/getme")
+      .get("https://active-surf-api.onrender.com/api/getme")
       .then((response) => {
         console.log("GETME", response);
         if (response.data.success === true) {
@@ -67,7 +67,7 @@ const Dashboard = () => {
         }
       });
     axios
-      .get("/api/member/getAllMembers")
+      .get("https://active-surf-api.onrender.com/api/member/getAllMembers")
       .then((response) => {
         const updatedMembers = response.data.members.map((member) => ({
           ...member,
@@ -91,7 +91,7 @@ const Dashboard = () => {
     setSaveExpenseComponentVisible(false);
   };
   const handleLogout = async () => {
-    await axios.get("api/logout");
+    await axios.get("https://active-surf-api.onrender.com/api/logout");
     navigate("/");
   };
 
@@ -168,7 +168,9 @@ const Dashboard = () => {
   }
   const fetchDebtors = async () => {
     try {
-      const response = await axios.get("/api/member/getDebtors");
+      const response = await axios.get(
+        "https://active-surf-api.onrender.com/api/member/getDebtors"
+      );
       setMembers(response.data);
     } catch (error) {
       console.error("Error fetching debtors:", error.response.data.error);

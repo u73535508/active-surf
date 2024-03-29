@@ -33,7 +33,9 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await axios.get("/api/teacher/getAllTeachers");
+        const response = await axios.get(
+          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers"
+        );
         setTeachers(response.data);
       } catch (error) {
         console.error(error);
@@ -43,7 +45,7 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
     const fetchLessons = async () => {
       try {
         const response = await axios.get(
-          `/api/lesson/getLessonsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/lesson/getLessonsForMember/${member._id}`
         );
         setLessons(response.data.lessons);
       } catch (error) {
@@ -67,7 +69,9 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
   };
   const handleDelete = async (lessonId) => {
     try {
-      await axios.delete(`/api/lesson/deleteLesson/${lessonId}`);
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/lesson/deleteLesson/${lessonId}`
+      );
       window.location.reload();
     } catch (error) {
       console.error("Ders silinirken hata oluştu.", error);

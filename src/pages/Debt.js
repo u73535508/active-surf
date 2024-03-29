@@ -32,7 +32,7 @@ export default function Debt() {
     }
     try {
       const response = await axios.get(
-        `/api/debt/getDebtsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/debt/getDebtsInRange?startDate=${startDate}&endDate=${endDate}`
       );
       console.log("response.data", response.data);
       setDebts(response.data);

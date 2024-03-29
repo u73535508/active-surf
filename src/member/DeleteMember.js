@@ -7,7 +7,9 @@ export default function DeleteMember({ memberToDelete, onClose }) {
   const deleteMember = async () => {
     console.log(memberToDelete, "deleted");
     try {
-      axios.delete(`/api/member/deleteMember/${memberToDelete._id}`);
+      axios.delete(
+        `https://active-surf-api.onrender.com/api/member/deleteMember/${memberToDelete._id}`
+      );
     } catch (error) {
       console.error("Error deleting member:", error);
       alert(error.response.data.error);
