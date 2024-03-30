@@ -72,6 +72,7 @@ const Dashboard = () => {
         const updatedMembers = response.data.members.map((member) => ({
           ...member,
         }));
+        setProfile("exist");
         setMembers(updatedMembers);
       })
       .catch((error) => {
