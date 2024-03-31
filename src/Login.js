@@ -12,17 +12,16 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log("username", username);
-      console.log("password", password);
-      const data = await axios.post(
+      const response = await axios.post(
         "https://active-surf-api.onrender.com/api/signin",
         {
           username: username,
           password: password,
         }
       );
-      console.log(data.data);
-      if (data.data.success) {
+      const { token, success } = response.data;
+      if (success === true) {
+        localStorage.setItem("token", token); // Token'ı local storage'a kaydet
         navigate("/dashboard");
       }
     } catch (e) {
