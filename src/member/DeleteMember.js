@@ -25,7 +25,7 @@ export default function DeleteMember({ memberToDelete, onClose }) {
       console.error("Error deleting member:", error);
       alert(error.response.data.error);
     }
-    //window.location.reload();
+    window.location.reload();
   };
   return (
     <ModalContent>
