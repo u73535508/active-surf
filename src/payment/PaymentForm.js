@@ -11,10 +11,16 @@ import {
   DialogContent,
   Box,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function PaymentForm({ member, service, onClose }) {
   console.log(service);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const [paymentDate, setPaymentDate] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [paymentType, setPaymentType] = useState("");
@@ -66,6 +72,11 @@ export default function PaymentForm({ member, service, onClose }) {
           serviceType: serviceType,
           rate: rate,
           memberName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -77,6 +88,11 @@ export default function PaymentForm({ member, service, onClose }) {
             remainingPrice: serviceRemainingPrice,
 
             isPaid: isServicePaid,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Camp") {
@@ -86,6 +102,11 @@ export default function PaymentForm({ member, service, onClose }) {
             ...service,
             isPaid: isServicePaid,
             remainingPrice: serviceRemainingPrice,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Storage") {
@@ -95,6 +116,11 @@ export default function PaymentForm({ member, service, onClose }) {
             ...service,
             isPaid: isServicePaid,
             remainingPrice: serviceRemainingPrice,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Debt") {
@@ -104,6 +130,11 @@ export default function PaymentForm({ member, service, onClose }) {
             ...service,
             isPaid: isServicePaid,
             remainingPrice: serviceRemainingPrice,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Rent") {
@@ -113,6 +144,11 @@ export default function PaymentForm({ member, service, onClose }) {
             ...service,
             isPaid: isServicePaid,
             remainingPrice: serviceRemainingPrice,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       }
@@ -122,6 +158,11 @@ export default function PaymentForm({ member, service, onClose }) {
         {
           id: member._id,
           debt: member.debt - Number(paymentAmount),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 

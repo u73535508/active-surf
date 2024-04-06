@@ -1,8 +1,14 @@
 import { styled, css } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const SaveMember = ({ onClose, memberToSave }) => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const [name, setName] = useState(memberToSave?.name || "");
   const [tc, setTc] = useState(memberToSave?.tc || "");
   const [phoneNumber, setPhoneNumber] = useState(
@@ -39,6 +45,11 @@ const SaveMember = ({ onClose, memberToSave }) => {
           email,
           address,
           accountTypes,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       onClose();

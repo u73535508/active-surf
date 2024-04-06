@@ -7,8 +7,13 @@ import {
   DialogContent,
 } from "@mui/material";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const SaveRentDialog = ({ open, member, onClose }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const [item, setItem] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -35,6 +40,11 @@ const SaveRentDialog = ({ open, member, onClose }) => {
           description,
           memberName: member.name,
           memberId: member._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       await axios.post(
@@ -43,6 +53,11 @@ const SaveRentDialog = ({ open, member, onClose }) => {
           ...member,
           id: member._id,
           debt: member.debt + Number(price),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       window.location.reload();

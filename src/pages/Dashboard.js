@@ -28,6 +28,11 @@ import SaveMember, { ModalContent } from "../member/SaveMember";
 import SaveExpense from "../SaveExpense";
 
 const Dashboard = () => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const [saveMemberComponentVisible, setSaveMemberComponentVisible] =
     useState(false);
   const [saveTeacherComponentVisible, setSaveTeacherComponentVisible] =
@@ -37,7 +42,7 @@ const Dashboard = () => {
   const [deleteMemberComponentVisible, setDeleteMemberComponentVisible] =
     useState(false);
   const [addDebtDialogVisible, setAddDebtDialogVisible] = useState(false);
-  const navigate = useNavigate();
+
   const [memberToSave, setMemberToSave] = useState(null);
   const [memberToAddDebt, setMemberToAddDebt] = useState(null);
   const [members, setMembers] = useState([]);
@@ -50,7 +55,11 @@ const Dashboard = () => {
   const [sortOrder, setSortOrder] = useState("asc"); // Sıralama sırası state'i
   useEffect(() => {
     axios
-      .get("https://active-surf-api.onrender.com/api/member/getAllMembers")
+      .get("https://active-surf-api.onrender.com/api/member/getAllMembers", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         const updatedMembers = response.data.members.map((member) => ({
           ...member,
@@ -75,7 +84,7 @@ const Dashboard = () => {
     setSaveExpenseComponentVisible(false);
   };
   const handleLogout = async () => {
-    await axios.get("https://active-surf-api.onrender.com/api/logout");
+    localStorage.removeItem("token");
     navigate("/");
   };
 
@@ -153,7 +162,12 @@ const Dashboard = () => {
   const fetchDebtors = async () => {
     try {
       const response = await axios.get(
-        "https://active-surf-api.onrender.com/api/member/getDebtors"
+        "https://active-surf-api.onrender.com/api/member/getDebtors",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setMembers(response.data);
     } catch (error) {

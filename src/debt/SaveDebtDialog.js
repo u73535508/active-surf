@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Button, TextField, Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const SaveDebtDialog = ({ open, member, onClose }) => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [debtDate, setDebtDate] = useState("");
-
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const handleAddDebt = async () => {
     try {
-      if (price <= 0) {
+      if (price < 0) {
         alert("Tutar 0'dan büyük olmalıdır.");
         return;
       }
@@ -24,6 +28,11 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
           memberId: member._id,
           remainingPrice: Number(price),
           description: description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       await axios.post(
@@ -32,6 +41,11 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
           ...member,
           id: member._id,
           debt: member.debt + Number(price),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       window.location.reload();

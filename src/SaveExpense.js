@@ -2,15 +2,25 @@ import { styled, css } from "@mui/system";
 import { Button, TextField, Select, MenuItem } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SaveExpense = ({ onClose }) => {
   const [expenseName, setExpenseName] = useState("");
   const [price, setPrice] = useState("");
   const [expenseDate, setExpenseDate] = useState("");
   const [description, setDescription] = useState("");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   async function submitMember() {
     if (!expenseName || !price || !expenseDate) {
       alert("Lütfen tüm alanları doldurunuz.");
+      return;
+    }
+    if (price < 0) {
+      alert("Ücret negatif olamaz.");
       return;
     }
     try {
@@ -22,6 +32,11 @@ const SaveExpense = ({ onClose }) => {
           expenseDate,
 
           description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       onClose();

@@ -13,12 +13,18 @@ import {
 import { ModalContent } from "../member/SaveMember";
 import axios from "axios";
 import PaymentForm from "../payment/PaymentForm";
+import { useNavigate } from "react-router-dom";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
 import LessonDates from "../lesson/LessonDates";
 import LessonDateForm from "../lesson/LessonDateForm";
 
 const MemberRentDialog = ({ open, member, onClose }) => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const [selectedRow, setSelectedRow] = useState(null);
   const [rentDatesVisible, setRentDatesVisible] = useState(false);
   const [rentDateDialogVisible, setRentDateDialogVisible] = useState(false);
@@ -33,7 +39,12 @@ const MemberRentDialog = ({ open, member, onClose }) => {
     const getRents = async () => {
       try {
         const response = await axios.get(
-          `https://active-surf-api.onrender.com/api/rent/getRentsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/rent/getRentsForMember/${member._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         setRents(response.data.rents);
@@ -54,7 +65,12 @@ const MemberRentDialog = ({ open, member, onClose }) => {
   const handleDelete = async (rent) => {
     try {
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/rent/deleteRent/${rent._id}`
+        `https://active-surf-api.onrender.com/api/rent/deleteRent/${rent._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       window.location.reload();
     } catch (error) {

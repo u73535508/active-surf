@@ -15,6 +15,10 @@ const theme = createTheme({
 });
 export default function Member() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const id = window.location.pathname.split("/").pop();
   const [member, setMember] = useState(null);
 
@@ -22,7 +26,12 @@ export default function Member() {
     const fetchMember = async () => {
       try {
         const response = await axios.get(
-          `https://active-surf-api.onrender.com/api/member/getMember/${id}`
+          `https://active-surf-api.onrender.com/api/member/getMember/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setMember(response.data.member);
       } catch (error) {

@@ -23,6 +23,10 @@ const LessonKinds = {
 };
 export default function Rent() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
@@ -38,7 +42,12 @@ export default function Rent() {
     }
     try {
       const response = await axios.get(
-        `https://active-surf-api.onrender.com/api/rent/getRentsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/rent/getRentsInRange?startDate=${startDate}&endDate=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("response.data", response.data);
       setRents(response.data);

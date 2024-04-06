@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
@@ -26,12 +27,21 @@ const SaveCampDialog = ({ open, member, onClose }) => {
   const [teacher, setTeacher] = useState("");
   const [description, setDescription] = useState("");
   const [teachers, setTeachers] = useState([]);
-
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(
-          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers"
+          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setTeachers(response.data);
       } catch (error) {
@@ -49,7 +59,7 @@ const SaveCampDialog = ({ open, member, onClose }) => {
         alert("Lütfen bir öğretmen seçiniz.");
         return;
       }
-      if (price <= 0) {
+      if (price < 0) {
         alert("Fiyat 0'dan büyük olmalıdır.");
         return;
       }
@@ -75,7 +85,12 @@ const SaveCampDialog = ({ open, member, onClose }) => {
       };
       await axios.post(
         `https://active-surf-api.onrender.com/api/camp/saveCamp`,
-        lessonData
+        lessonData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       await axios.post(
         `https://active-surf-api.onrender.com/api/member/saveMember`,
@@ -83,6 +98,11 @@ const SaveCampDialog = ({ open, member, onClose }) => {
           ...member,
           id: member._id,
           debt: member.debt + Number(price),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       window.location.reload();

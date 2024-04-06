@@ -15,6 +15,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SaveLessonDialog = ({ open, member, onClose }) => {
   const [lessonType, setLessonType] = useState("group");
@@ -26,11 +27,21 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
   const [teachers, setTeachers] = useState([]);
   const [lessonKind, setLessonKind] = useState("");
   const [description, setDescription] = useState("");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(
-          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers"
+          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setTeachers(response.data);
       } catch (error) {
@@ -73,7 +84,12 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
       };
       await axios.post(
         `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
-        lessonData
+        lessonData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       await axios.post(
         `https://active-surf-api.onrender.com/api/member/saveMember`,
@@ -81,6 +97,11 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
           ...member,
           id: member._id,
           debt: member.debt + Number(price),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       window.location.reload();

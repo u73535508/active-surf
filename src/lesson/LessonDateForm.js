@@ -10,9 +10,15 @@ import {
   DialogActions,
 } from "@mui/material";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 export default function LessonDateForm({ lesson, onClose }) {
   const [lessonDate, setLessonDate] = useState("");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
+
   const handleLessonAdder = async () => {
     try {
       if (!lessonDate) {
@@ -26,6 +32,11 @@ export default function LessonDateForm({ lesson, onClose }) {
             ...lesson,
             remainingLessonAmount: lesson.remainingLessonAmount - 1,
             lessonDates: [...lesson.lessonDates, new Date(lessonDate)],
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (lesson.campType) {
@@ -35,6 +46,11 @@ export default function LessonDateForm({ lesson, onClose }) {
             ...lesson,
             remainingCampAmount: lesson.remainingCampAmount - 1,
             campDates: [...lesson.campDates, lessonDate],
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else {
@@ -43,6 +59,11 @@ export default function LessonDateForm({ lesson, onClose }) {
           {
             ...lesson,
             rentDates: [...lesson.rentDates, lessonDate],
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       }

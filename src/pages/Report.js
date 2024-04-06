@@ -31,6 +31,10 @@ const ServiceTypes = {
 };
 export default function Report() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
@@ -46,7 +50,12 @@ export default function Report() {
     }
     try {
       const response = await axios.get(
-        `https://active-surf-api.onrender.com/api/payment/getPaymentsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/payment/getPaymentsInRange?startDate=${startDate}&endDate=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("Payments:", response.data.payments);
       setPayments(response.data.payments);

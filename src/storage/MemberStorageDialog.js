@@ -9,7 +9,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PaymentForm from "../payment/PaymentForm";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
@@ -23,11 +23,21 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
   const [paymentDialogVisible, setPaymentDialogVisible] = useState(false);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   useEffect(() => {
     const getStorages = async () => {
       try {
         const response = await axios.get(
-          `https://active-surf-api.onrender.com/api/storage/getStoragesForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/storage/getStoragesForMember/${member._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         setStorages(response.data.storages);
@@ -56,7 +66,12 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
   const handleDelete = async (storage) => {
     try {
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/storage/deleteStorage/${storage._id}`
+        `https://active-surf-api.onrender.com/api/storage/deleteStorage/${storage._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       window.location.reload();
     } catch (error) {

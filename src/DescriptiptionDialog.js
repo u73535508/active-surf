@@ -9,7 +9,13 @@ import {
   DialogActions,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function DescriptionDialog({ service, onClose }) {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const handleDescription = async () => {
     try {
       const serviceType = service.lessonKind
@@ -28,6 +34,11 @@ export default function DescriptionDialog({ service, onClose }) {
           {
             ...service,
             description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Storage") {
@@ -37,15 +48,26 @@ export default function DescriptionDialog({ service, onClose }) {
             ...service,
 
             description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Debt") {
         await axios.post(
           `https://active-surf-api.onrender.com/api/debt/saveDebt`,
+
           {
             ...service,
 
             description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Rent") {
@@ -55,6 +77,11 @@ export default function DescriptionDialog({ service, onClose }) {
             ...service,
 
             description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (serviceType === "Camp") {
@@ -63,13 +90,18 @@ export default function DescriptionDialog({ service, onClose }) {
           {
             ...service,
             description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       }
 
       window.location.reload();
     } catch (error) {
-      console.error("Error making payment:", error.response.data.error);
+      console.error("Error saving description:", error.response.data.error);
       alert(error.response.data.error);
     }
   };

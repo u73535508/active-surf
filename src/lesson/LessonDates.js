@@ -13,9 +13,15 @@ import {
 } from "@mui/material";
 import { IconButton } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const LessonDates = ({ lesson, onClose }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const handleDeleteDate = async (index) => {
     try {
       if (lesson.lessonKind) {
@@ -29,7 +35,12 @@ const LessonDates = ({ lesson, onClose }) => {
         };
         await axios.post(
           `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
-          updatedLesson
+          updatedLesson,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
       } else if (lesson.campType) {
         const updatedDates = lesson.campDates.filter((date, i) => i !== index);
@@ -40,7 +51,12 @@ const LessonDates = ({ lesson, onClose }) => {
         };
         await axios.post(
           `https://active-surf-api.onrender.com/api/camp/saveCamp`,
-          updatedLesson
+          updatedLesson,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
       } else {
         const updatedDates = lesson.rentDates.filter((date, i) => i !== index);
@@ -50,7 +66,12 @@ const LessonDates = ({ lesson, onClose }) => {
         };
         await axios.post(
           `https://active-surf-api.onrender.com/api/rent/saveRent`,
-          updatedLesson
+          updatedLesson,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
       }
 

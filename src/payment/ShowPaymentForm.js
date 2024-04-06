@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -22,11 +23,21 @@ const PaymentTypes = {
 };
 const ShowPaymentForm = ({ member, service, onClose }) => {
   console.log("member", member);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const [payments, setPayments] = useState([]);
   useEffect(() => {
     axios
       .get(
-        `https://active-surf-api.onrender.com/api/payment/getPaymentsForService/${service._id}`
+        `https://active-surf-api.onrender.com/api/payment/getPaymentsForService/${service._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((response) => {
         setPayments(response.data.payments);
@@ -36,7 +47,12 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
     try {
       const paymentAmount = payment.amount;
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/payment/deletePayment/${payment._id}`
+        `https://active-surf-api.onrender.com/api/payment/deletePayment/${payment._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (service.lessonKind) {
         await axios.post(
@@ -46,6 +62,11 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
             id: service._id,
             isPaid: false,
             remainingPrice: service.remainingPrice + paymentAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (service.productName) {
@@ -56,6 +77,11 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
             isPaid: false,
             id: service._id,
             remainingPrice: service.remainingPrice + paymentAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (service.storedPlace) {
@@ -66,6 +92,11 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
             isPaid: false,
             id: service._id,
             remainingPrice: service.remainingPrice + paymentAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else if (service.campType) {
@@ -76,6 +107,11 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
             isPaid: false,
             id: service._id,
             remainingPrice: service.remainingPrice + paymentAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       } else {
@@ -86,6 +122,11 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
             isPaid: false,
             id: service._id,
             remainingPrice: service.remainingPrice + paymentAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
       }
@@ -95,6 +136,11 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
           ...member,
           id: member._id,
           debt: member.debt + paymentAmount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       window.location.reload();

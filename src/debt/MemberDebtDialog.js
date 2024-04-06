@@ -14,7 +14,7 @@ import axios from "axios";
 import PaymentForm from "../payment/PaymentForm";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
-
+import { useNavigate } from "react-router-dom";
 const MemberDebtDialog = ({ open, member, onClose }) => {
   console.log("member", member);
   const [debts, setDebts] = useState([]);
@@ -24,11 +24,21 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
     useState(false);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   useEffect(() => {
     const getDebts = async () => {
       try {
         const response = await axios.get(
-          `https://active-surf-api.onrender.com/api/debt/getDebtsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/debt/getDebtsForMember/${member._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setDebts(response.data.debts);
       } catch (error) {
@@ -45,7 +55,12 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
   const handleDeleteDebt = async (debt) => {
     try {
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/debt/deleteDebt/${debt._id}`
+        `https://active-surf-api.onrender.com/api/debt/deleteDebt/${debt._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       window.location.reload();
     } catch (error) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Modal,
   Button,
@@ -29,12 +30,21 @@ const MemberCampDialog = ({ open, member, onClose }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
-
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(
-          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers"
+          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setTeachers(response.data);
       } catch (error) {
@@ -45,7 +55,12 @@ const MemberCampDialog = ({ open, member, onClose }) => {
     const fetchLessons = async () => {
       try {
         const response = await axios.get(
-          `https://active-surf-api.onrender.com/api/camp/getCampsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/camp/getCampsForMember/${member._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setCamps(response.data.camps);
       } catch (error) {
@@ -70,7 +85,12 @@ const MemberCampDialog = ({ open, member, onClose }) => {
   const handleDelete = async (campId) => {
     try {
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/camp/deleteCamp/${campId}`
+        `https://active-surf-api.onrender.com/api/camp/deleteCamp/${campId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       window.location.reload();
     } catch (error) {

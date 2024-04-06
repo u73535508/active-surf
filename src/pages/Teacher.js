@@ -31,6 +31,10 @@ const CampTypes = {
 export default function Teacher() {
   const modalRef = useRef();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selected, setSelected] = useState("lesson");
@@ -47,7 +51,12 @@ export default function Teacher() {
   const getLessonsForTeacher = async () => {
     try {
       const response = await axios.get(
-        `https://active-surf-api.onrender.com/api/lesson/getLessonsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/lesson/getLessonsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("lessons", response.data);
       setLessons(response.data);
@@ -60,7 +69,12 @@ export default function Teacher() {
   const getCampsForTeacher = async () => {
     try {
       const response = await axios.get(
-        `https://active-surf-api.onrender.com/api/camp/getCampsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/camp/getCampsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setCamps(response.data);
       setLessons([]);

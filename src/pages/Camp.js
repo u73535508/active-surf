@@ -23,6 +23,11 @@ const CampTypes = {
 };
 export default function Camp() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
@@ -38,7 +43,12 @@ export default function Camp() {
     }
     try {
       const response = await axios.get(
-        `https://active-surf-api.onrender.com/api/camp/getCampsInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/camp/getCampsInRange?startDate=${startDate}&endDate=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("Camps:", response);
       setCamps(response.data);

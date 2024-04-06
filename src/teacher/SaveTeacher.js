@@ -2,16 +2,25 @@ import { styled, css } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const SaveTeacher = ({ onClose }) => {
   const [name, setName] = useState("");
-
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   async function submitMember() {
     try {
       await axios.post(
         "https://active-surf-api.onrender.com/api/teacher/saveTeacher",
         {
           name: name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       onClose();

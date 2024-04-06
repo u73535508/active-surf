@@ -18,6 +18,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function Expense() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
@@ -25,7 +30,12 @@ export default function Expense() {
   const handleDeleteExpense = async (expenseId) => {
     try {
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/expense/deleteExpense/${expenseId}`
+        `https://active-surf-api.onrender.com/api/expense/deleteExpense/${expenseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       window.location.reload();
     } catch (error) {
@@ -44,7 +54,12 @@ export default function Expense() {
     }
     try {
       const response = await axios.get(
-        `https://active-surf-api.onrender.com/api/expense/getExpensesInRange?startDate=${startDate}&endDate=${endDate}`
+        `https://active-surf-api.onrender.com/api/expense/getExpensesInRange?startDate=${startDate}&endDate=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("response", response);
       setExpenses(response.data.expenses);

@@ -17,12 +17,20 @@ import TeacherLessonsModal from "../teacher/TeacherLessonsModal";
 const Teachers = () => {
   const [teachers, setTeachers] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  }
   const [lessons, setLessons] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     axios
-      .get("https://active-surf-api.onrender.com/api/teacher/getAllTeachers")
+      .get("https://active-surf-api.onrender.com/api/teacher/getAllTeachers", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setTeachers(response.data);
       })

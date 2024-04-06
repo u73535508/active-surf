@@ -16,7 +16,7 @@ import LessonDateForm from "./LessonDateForm";
 import LessonDates from "./LessonDates";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
-
+import { useNavigate } from "react-router-dom";
 const MemberLessonDialog = ({ open, member, onClose }) => {
   const [lessons, setLessons] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -29,12 +29,21 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
-
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(
-          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers"
+          "https://active-surf-api.onrender.com/api/teacher/getAllTeachers",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setTeachers(response.data);
       } catch (error) {
@@ -45,7 +54,12 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
     const fetchLessons = async () => {
       try {
         const response = await axios.get(
-          `https://active-surf-api.onrender.com/api/lesson/getLessonsForMember/${member._id}`
+          `https://active-surf-api.onrender.com/api/lesson/getLessonsForMember/${member._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setLessons(response.data.lessons);
       } catch (error) {
@@ -70,7 +84,12 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
   const handleDelete = async (lessonId) => {
     try {
       await axios.delete(
-        `https://active-surf-api.onrender.com/api/lesson/deleteLesson/${lessonId}`
+        `https://active-surf-api.onrender.com/api/lesson/deleteLesson/${lessonId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       window.location.reload();
     } catch (error) {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const SaveStorageDialog = ({ open, onClose, member }) => {
   const [item, setItem] = useState("");
   const [storedPlace, setStoredPlace] = useState("");
@@ -9,6 +9,11 @@ const SaveStorageDialog = ({ open, onClose, member }) => {
   const [endDate, setEndDate] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const handleAddStorage = async () => {
     try {
       if (price <= 0) {
@@ -32,6 +37,11 @@ const SaveStorageDialog = ({ open, onClose, member }) => {
           description,
           memberId: member._id,
           memberName: member.name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       await axios.post(
@@ -40,6 +50,11 @@ const SaveStorageDialog = ({ open, onClose, member }) => {
           ...member,
           id: member._id,
           debt: member.debt + Number(price),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       window.location.reload();

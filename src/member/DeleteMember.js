@@ -3,12 +3,23 @@ import { Button } from "@mui/material";
 import { ButtonGroup } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function DeleteMember({ memberToDelete, onClose }) {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  if (!token) {
+    navigate("/");
+  }
   const deleteMember = async () => {
     console.log(memberToDelete, "deleted");
     try {
       axios.delete(
-        `https://active-surf-api.onrender.com/api/member/deleteMember/${memberToDelete._id}`
+        `https://active-surf-api.onrender.com/api/member/deleteMember/${memberToDelete._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
     } catch (error) {
       console.error("Error deleting member:", error);
