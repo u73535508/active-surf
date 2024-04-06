@@ -32,10 +32,11 @@ const MemberCampDialog = ({ open, member, onClose }) => {
     useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(

@@ -25,11 +25,13 @@ const ShowPaymentForm = ({ member, service, onClose }) => {
   console.log("member", member);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const [payments, setPayments] = useState([]);
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     axios
       .get(
         `https://active-surf-api.onrender.com/api/payment/getPaymentsForService/${service._id}`,

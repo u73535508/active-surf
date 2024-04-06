@@ -13,10 +13,12 @@ import { useNavigate } from "react-router-dom";
 export default function DescriptionDialog({ service, onClose }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const handleDescription = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       const serviceType = service.lessonKind
         ? "Lesson"

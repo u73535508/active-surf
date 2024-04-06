@@ -6,9 +6,7 @@ import axios from "axios";
 const SaveMember = ({ onClose, memberToSave }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const [name, setName] = useState(memberToSave?.name || "");
   const [tc, setTc] = useState(memberToSave?.tc || "");
   const [phoneNumber, setPhoneNumber] = useState(
@@ -24,6 +22,10 @@ const SaveMember = ({ onClose, memberToSave }) => {
   );
 
   async function submitMember() {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       if (!name || !phoneNumber || !email || !address || !dateOfBirth) {
         alert("Lütfen tüm alanları doldurunuz.");

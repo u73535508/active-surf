@@ -22,9 +22,7 @@ import LessonDateForm from "../lesson/LessonDateForm";
 const MemberRentDialog = ({ open, member, onClose }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const [selectedRow, setSelectedRow] = useState(null);
   const [rentDatesVisible, setRentDatesVisible] = useState(false);
   const [rentDateDialogVisible, setRentDateDialogVisible] = useState(false);
@@ -36,6 +34,10 @@ const MemberRentDialog = ({ open, member, onClose }) => {
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     const getRents = async () => {
       try {
         const response = await axios.get(

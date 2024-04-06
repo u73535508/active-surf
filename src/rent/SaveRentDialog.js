@@ -11,15 +11,17 @@ import { useNavigate } from "react-router-dom";
 const SaveRentDialog = ({ open, member, onClose }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const [item, setItem] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const handleAddRent = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       if (price <= 0) {
         alert("Fiyat 0'dan büyük olmalıdır.");

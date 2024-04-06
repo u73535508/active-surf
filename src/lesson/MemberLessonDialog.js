@@ -31,10 +31,11 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
     useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(

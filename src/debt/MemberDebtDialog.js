@@ -26,10 +26,11 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
     useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
     const getDebts = async () => {
       try {
         const response = await axios.get(

@@ -32,14 +32,16 @@ const ServiceTypes = {
 export default function Report() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
   const [payments, setPayments] = useState([]);
   const getPaymentsInRange = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     if (!startDate || !endDate) {
       alert("Lütfen başlangıç ve bitiş tarihlerini girin.");
       return;

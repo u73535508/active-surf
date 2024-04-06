@@ -18,14 +18,16 @@ export default function PaymentForm({ member, service, onClose }) {
   console.log(service);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const [paymentDate, setPaymentDate] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [paymentType, setPaymentType] = useState("");
   const [rate, setRate] = useState("");
   const handlePayment = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       if (paymentAmount > service.remainingPrice) {
         alert("Ödeme miktarı kalan ücretten fazla olamaz.");

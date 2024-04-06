@@ -9,10 +9,11 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
   const [debtDate, setDebtDate] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const handleAddDebt = async () => {
+    if (!token) {
+      navigate("/");
+    }
     try {
       if (price < 0) {
         alert("Tutar 0'dan büyük olmalıdır.");

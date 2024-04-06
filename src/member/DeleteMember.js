@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 export default function DeleteMember({ memberToDelete, onClose }) {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const deleteMember = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     console.log(memberToDelete, "deleted");
     try {
       await axios.delete(

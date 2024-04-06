@@ -15,11 +15,12 @@ export default function LessonDateForm({ lesson, onClose }) {
   const [lessonDate, setLessonDate] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
 
   const handleLessonAdder = async () => {
+    if (!token) {
+      navigate("/");
+    }
+
     try {
       if (!lessonDate) {
         alert("Lütfen bir tarih seçiniz.");

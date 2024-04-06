@@ -29,10 +29,11 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
   const [description, setDescription] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(

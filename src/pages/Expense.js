@@ -19,15 +19,16 @@ import { useNavigate } from "react-router-dom";
 export default function Expense() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
   const [expenses, setExpenses] = useState([]);
   const handleDeleteExpense = async (expenseId) => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       await axios.delete(
         `https://active-surf-api.onrender.com/api/expense/deleteExpense/${expenseId}`,
@@ -44,6 +45,10 @@ export default function Expense() {
     }
   };
   const getExpensesInRange = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     if (!startDate || !endDate) {
       alert("Lütfen başlangıç ve bitiş tarihlerini girin.");
       return;

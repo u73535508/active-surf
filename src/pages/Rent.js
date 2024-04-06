@@ -24,14 +24,16 @@ const LessonKinds = {
 export default function Rent() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
   const [rents, setRents] = useState([]);
   const getRentsInRange = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     if (!startDate || !endDate) {
       alert("Lütfen başlangıç ve bitiş tarihlerini girin.");
       return;

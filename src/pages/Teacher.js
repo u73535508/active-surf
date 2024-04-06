@@ -32,9 +32,7 @@ export default function Teacher() {
   const modalRef = useRef();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selected, setSelected] = useState("lesson");
@@ -49,6 +47,10 @@ export default function Teacher() {
   const teacherId = window.location.pathname.split("/").pop();
 
   const getLessonsForTeacher = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       const response = await axios.get(
         `https://active-surf-api.onrender.com/api/lesson/getLessonsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`,
@@ -67,6 +69,10 @@ export default function Teacher() {
   };
 
   const getCampsForTeacher = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       const response = await axios.get(
         `https://active-surf-api.onrender.com/api/camp/getCampsForTeacherInRange?teacherId=${teacherId}&startDate=${startDate}&endDate=${endDate}`,

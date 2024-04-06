@@ -11,10 +11,12 @@ const SaveStorageDialog = ({ open, onClose, member }) => {
   const [description, setDescription] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const handleAddStorage = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       if (price <= 0) {
         alert("Fiyat 0'dan büyük olmalıdır.");

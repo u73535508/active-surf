@@ -29,10 +29,11 @@ const SaveCampDialog = ({ open, member, onClose }) => {
   const [teachers, setTeachers] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(

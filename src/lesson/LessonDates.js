@@ -19,10 +19,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const LessonDates = ({ lesson, onClose }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const handleDeleteDate = async (index) => {
+    if (!token) {
+      navigate("/");
+    }
     try {
       if (lesson.lessonKind) {
         const updatedDates = lesson.lessonDates.filter(

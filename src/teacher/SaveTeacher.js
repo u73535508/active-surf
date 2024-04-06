@@ -7,10 +7,12 @@ const SaveTeacher = ({ onClose }) => {
   const [name, setName] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   async function submitMember() {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     try {
       await axios.post(
         "https://active-surf-api.onrender.com/api/teacher/saveTeacher",

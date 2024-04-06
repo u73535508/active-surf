@@ -30,9 +30,7 @@ import SaveExpense from "../SaveExpense";
 const Dashboard = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
+
   const [saveMemberComponentVisible, setSaveMemberComponentVisible] =
     useState(false);
   const [saveTeacherComponentVisible, setSaveTeacherComponentVisible] =
@@ -54,6 +52,10 @@ const Dashboard = () => {
 
   const [sortOrder, setSortOrder] = useState("asc"); // Sıralama sırası state'i
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     axios
       .get("https://active-surf-api.onrender.com/api/member/getAllMembers", {
         headers: {

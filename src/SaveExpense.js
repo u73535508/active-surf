@@ -11,10 +11,12 @@ const SaveExpense = ({ onClose }) => {
   const [description, setDescription] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  if (!token) {
-    navigate("/");
-  }
-  async function submitMember() {
+
+  async function submitExpense() {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     if (!expenseName || !price || !expenseDate) {
       alert("Lütfen tüm alanları doldurunuz.");
       return;
@@ -96,7 +98,7 @@ const SaveExpense = ({ onClose }) => {
             type="submit"
             variant="contained"
             color="success"
-            onClick={submitMember}
+            onClick={submitExpense}
           >
             Kaydet
           </Button>

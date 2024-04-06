@@ -18,15 +18,16 @@ import { useNavigate } from "react-router-dom";
 export default function Debt() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const modalRef = useRef();
   const [debts, setDebts] = useState([]);
   const getDebtsInRange = async () => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     if (!startDate || !endDate) {
       alert("Lütfen başlangıç ve bitiş tarihlerini girin.");
       return;

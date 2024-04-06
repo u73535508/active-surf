@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Modal,
@@ -18,7 +19,8 @@ const TeacherLessonsModal = ({ open, lessons, onClose }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const modalRef = useRef();
-
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const printDocument = () => {
     html2canvas(modalRef.current).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -44,6 +46,11 @@ const TeacherLessonsModal = ({ open, lessons, onClose }) => {
     });
   };
   const filterLessons = (lessons) => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
     if (!startDate || !endDate) return lessons;
 
     return lessons.filter((lesson) => {

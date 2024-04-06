@@ -18,13 +18,15 @@ const Teachers = () => {
   const [teachers, setTeachers] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const [lessons, setLessons] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     axios
       .get("https://active-surf-api.onrender.com/api/teacher/getAllTeachers", {
         headers: {

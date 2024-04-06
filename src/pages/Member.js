@@ -16,13 +16,15 @@ const theme = createTheme({
 export default function Member() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/");
-  }
+
   const id = window.location.pathname.split("/").pop();
   const [member, setMember] = useState(null);
 
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
     const fetchMember = async () => {
       try {
         const response = await axios.get(
