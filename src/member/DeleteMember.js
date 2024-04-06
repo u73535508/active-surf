@@ -13,7 +13,7 @@ export default function DeleteMember({ memberToDelete, onClose }) {
   const deleteMember = async () => {
     console.log(memberToDelete, "deleted");
     try {
-      axios.delete(
+      await axios.delete(
         `https://active-surf-api.onrender.com/api/member/deleteMember/${memberToDelete._id}`,
         {
           headers: {
@@ -25,7 +25,7 @@ export default function DeleteMember({ memberToDelete, onClose }) {
       console.error("Error deleting member:", error);
       alert(error.response.data.error);
     }
-    window.location.reload();
+    //window.location.reload();
   };
   return (
     <ModalContent>
