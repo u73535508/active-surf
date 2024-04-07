@@ -60,8 +60,8 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
         alert("Lütfen bir öğretmen seçiniz.");
         return;
       }
-      if (price <= 0) {
-        alert("Fiyat 0'dan büyük olmalıdır.");
+      if (price <= 0 || lessonAmount <= 0) {
+        alert("Sayısal değerler 0'dan büyük olmalıdır.");
         return;
       }
       if (startDate > endDate) {
@@ -157,6 +157,7 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
           fullWidth
           required
           type="number"
+          onWheel={() => document.activeElement.blur()}
           margin="normal"
           value={lessonAmount}
           onChange={(e) => setLessonAmount(e.target.value)}
@@ -165,6 +166,7 @@ const SaveLessonDialog = ({ open, member, onClose }) => {
           label="Fiyat"
           fullWidth
           required
+          onWheel={() => document.activeElement.blur()}
           type="number"
           margin="normal"
           value={price}

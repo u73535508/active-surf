@@ -15,7 +15,7 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
       navigate("/");
     }
     try {
-      if (price < 0) {
+      if (price <= 0) {
         alert("Tutar 0'dan büyük olmalıdır.");
         return;
       }
@@ -69,6 +69,7 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
         />
         <TextField
           label="Tutar"
+          onWheel={() => document.activeElement.blur()}
           type="number"
           fullWidth
           margin="normal"

@@ -211,6 +211,7 @@ export default function PaymentForm({ member, service, onClose }) {
             label="Ödeme Miktarı"
             type="Number"
             value={paymentAmount}
+            onWheel={() => document.activeElement.blur()}
             onChange={(e) => setPaymentAmount(e.target.value)}
             InputLabelProps={{
               shrink: true,

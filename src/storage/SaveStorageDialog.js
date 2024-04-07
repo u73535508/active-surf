@@ -114,6 +114,7 @@ const SaveStorageDialog = ({ open, onClose, member }) => {
           value={price}
           type="number"
           onChange={(e) => setPrice(e.target.value)}
+          onWheel={() => document.activeElement.blur()}
         />
         <TextField
           label="Not"

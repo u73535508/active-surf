@@ -60,8 +60,8 @@ const SaveCampDialog = ({ open, member, onClose }) => {
         alert("Lütfen bir öğretmen seçiniz.");
         return;
       }
-      if (price < 0) {
-        alert("Fiyat 0'dan büyük olmalıdır.");
+      if (price <= 0 || campAmountDay <= 0 || campAmountWeek <= 0) {
+        alert("Her sayısal değer 0'dan büyük  olmalıdır.");
         return;
       }
       if (startDate > endDate) {
@@ -171,6 +171,7 @@ const SaveCampDialog = ({ open, member, onClose }) => {
           fullWidth
           required
           type="number"
+          onWheel={() => document.activeElement.blur()}
           margin="normal"
           value={campAmountWeek}
           onChange={(e) => setCampAmountWeek(e.target.value)}
@@ -181,6 +182,7 @@ const SaveCampDialog = ({ open, member, onClose }) => {
           required
           type="number"
           margin="normal"
+          onWheel={() => document.activeElement.blur()}
           value={campAmountDay}
           onChange={(e) => setCampAmountDay(e.target.value)}
         />
@@ -190,6 +192,7 @@ const SaveCampDialog = ({ open, member, onClose }) => {
           required
           type="number"
           margin="normal"
+          onWheel={() => document.activeElement.blur()}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />

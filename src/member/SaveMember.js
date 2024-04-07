@@ -84,6 +84,7 @@ const SaveMember = ({ onClose, memberToSave }) => {
           label="TC"
           fullWidth
           type="number"
+          onWheel={() => document.activeElement.blur()}
           margin="normal"
           value={tc}
           onChange={(e) => setTc(e.target.value)}
@@ -96,6 +97,7 @@ const SaveMember = ({ onClose, memberToSave }) => {
           type="number"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
+          onWheel={() => document.activeElement.blur()}
         />
         <TextField
           label="E-posta Adresi"

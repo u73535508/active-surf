@@ -21,7 +21,7 @@ const SaveExpense = ({ onClose }) => {
       alert("Lütfen tüm alanları doldurunuz.");
       return;
     }
-    if (price < 0) {
+    if (price <= 0) {
       alert("Ücret negatif olamaz.");
       return;
     }
@@ -81,6 +81,7 @@ const SaveExpense = ({ onClose }) => {
           label="Ücret"
           fullWidth
           type="number"
+          onWheel={() => document.activeElement.blur()}
           margin="normal"
           value={price}
           onChange={(e) => setPrice(e.target.value)}

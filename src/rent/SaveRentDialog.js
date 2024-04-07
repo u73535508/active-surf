@@ -107,6 +107,7 @@ const SaveRentDialog = ({ open, member, onClose }) => {
           label="Fiyat"
           fullWidth
           type="number"
+          onWheel={() => document.activeElement.blur()}
           margin="normal"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
