@@ -16,6 +16,7 @@ import PaymentForm from "../payment/PaymentForm";
 import { useNavigate } from "react-router-dom";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
+import PriceDialog from "../PriceDialog";
 import LessonDates from "../lesson/LessonDates";
 import LessonDateForm from "../lesson/LessonDateForm";
 
@@ -33,6 +34,7 @@ const MemberRentDialog = ({ open, member, onClose }) => {
     useState(false);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
+  const [priceDialogVisible, setPriceDialogVisible] = useState(false);
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -88,6 +90,10 @@ const MemberRentDialog = ({ open, member, onClose }) => {
     setSelectedRent(rent);
     setDescriptionDialogVisible(true);
   };
+  const handleChangePrice = (rent) => {
+    setSelectedRent(rent);
+    setPriceDialogVisible(true);
+  };
   const handleShowPayment = (rent) => {
     setSelectedRent(rent);
     setShowPaymentDialogVisible(true);
@@ -125,6 +131,12 @@ const MemberRentDialog = ({ open, member, onClose }) => {
         <DescriptionDialog
           service={selectedRent}
           onClose={() => setDescriptionDialogVisible(false)}
+        />
+      )}
+      {priceDialogVisible && (
+        <PriceDialog
+          service={selectedRent}
+          onClose={() => setPriceDialogVisible(false)}
         />
       )}
       {showPaymentDialogVisible && (
@@ -210,6 +222,13 @@ const MemberRentDialog = ({ open, member, onClose }) => {
                     onClick={() => handleDelete(rent)}
                   >
                     Sil
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleChangePrice(rent)}
+                  >
+                    Fiyat Düzenle
                   </Button>
                   <Button
                     variant="outlined"

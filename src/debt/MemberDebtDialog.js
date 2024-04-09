@@ -14,6 +14,7 @@ import axios from "axios";
 import PaymentForm from "../payment/PaymentForm";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
+import PriceDialog from "../PriceDialog";
 import { useNavigate } from "react-router-dom";
 const MemberDebtDialog = ({ open, member, onClose }) => {
   console.log("member", member);
@@ -22,6 +23,7 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
   const [paymentDialogVisible, setPaymentDialogVisible] = useState(false);
   const [showPaymentDialogVisible, setShowPaymentDialogVisible] =
     useState(false);
+  const [priceDialogVisible, setPriceDialogVisible] = useState(false);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
   const token = localStorage.getItem("token");
@@ -81,8 +83,18 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
     setSelectedDebt(debt);
     setDescriptionDialogVisible(true);
   };
+  const handleChangePrice = (debt) => {
+    setSelectedDebt(debt);
+    setPriceDialogVisible(true);
+  };
   return (
     <div>
+      {priceDialogVisible && (
+        <PriceDialog
+          service={selectedDebt}
+          onClose={() => setPriceDialogVisible(false)}
+        />
+      )}
       {descriptionDialogVisible && (
         <DescriptionDialog
           service={selectedDebt}
@@ -154,6 +166,13 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
                     onClick={() => handleDeleteDebt(debt)}
                   >
                     Sil
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleChangePrice(debt)}
+                  >
+                    Fiyat Düzenle
                   </Button>
                   <Button
                     variant="outlined"

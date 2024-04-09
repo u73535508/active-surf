@@ -125,7 +125,7 @@ const MemberCampDialog = ({ open, member, onClose }) => {
       {priceDialogVisible && (
         <PriceDialog
           service={selectedCamp}
-          onClose={() => setDescriptionDialogVisible(false)}
+          onClose={() => setPriceDialogVisible(false)}
         />
       )}
       {descriptionDialogVisible && (

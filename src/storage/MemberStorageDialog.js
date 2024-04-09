@@ -14,6 +14,7 @@ import axios from "axios";
 import PaymentForm from "../payment/PaymentForm";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
+import PriceDialog from "../PriceDialog";
 
 const MemberStorageDialog = ({ open, member, onClose }) => {
   const [storages, setStorages] = useState([]);
@@ -23,6 +24,7 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
   const [paymentDialogVisible, setPaymentDialogVisible] = useState(false);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
+  const [priceDialogVisible, setPriceDialogVisible] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -65,6 +67,10 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
     setSelectedStorage(storage);
     setDescriptionDialogVisible(true);
   };
+  const handleChangePrice = (storage) => {
+    setSelectedStorage(storage);
+    setPriceDialogVisible(true);
+  };
   const handleDelete = async (storage) => {
     try {
       await axios.delete(
@@ -102,6 +108,12 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
         <DescriptionDialog
           service={selectedStorage}
           onClose={() => setDescriptionDialogVisible(false)}
+        />
+      )}
+      {priceDialogVisible && (
+        <PriceDialog
+          service={selectedStorage}
+          onClose={() => setPriceDialogVisible(false)}
         />
       )}
       <h2>Depolama Detayları</h2>
@@ -160,6 +172,13 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
                     onClick={() => handleDelete(storage)}
                   >
                     Sil
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleChangePrice(storage)}
+                  >
+                    Fiyat Düzenle
                   </Button>
                   <Button
                     variant="outlined"

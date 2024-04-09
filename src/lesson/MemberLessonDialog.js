@@ -16,6 +16,7 @@ import LessonDateForm from "./LessonDateForm";
 import LessonDates from "./LessonDates";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
+import PriceDialog from "../PriceDialog";
 import { useNavigate } from "react-router-dom";
 const MemberLessonDialog = ({ open, member, onClose }) => {
   const [lessons, setLessons] = useState([]);
@@ -29,6 +30,7 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
+  const [priceDialogVisible, setPriceDialogVisible] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -110,11 +112,21 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
     setSelectedLesson(lesson);
     setDescriptionDialogVisible(true);
   };
+  const handleChangePrice = (lesson) => {
+    setSelectedLesson(lesson);
+    setPriceDialogVisible(true);
+  };
   const handleTableRowClick = (index) => {
     setSelectedRow(index === selectedRow ? null : index);
   };
   return (
     <div>
+      {priceDialogVisible && (
+        <PriceDialog
+          service={selectedLesson}
+          onClose={() => setPriceDialogVisible(false)}
+        />
+      )}
       {descriptionDialogVisible && (
         <DescriptionDialog
           service={selectedLesson}
@@ -250,6 +262,13 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
                     onClick={() => handleDelete(lesson._id)}
                   >
                     Sil
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleChangePrice(lesson)}
+                  >
+                    Fiyat Düzenle
                   </Button>
                   <Button
                     variant="outlined"
