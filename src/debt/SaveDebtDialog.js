@@ -79,6 +79,7 @@ const SaveDebtDialog = ({ open, member, onClose }) => {
         <TextField
           label="Not"
           type="string"
+          multiline
           fullWidth
           margin="normal"
           value={description}

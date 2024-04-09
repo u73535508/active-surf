@@ -126,7 +126,9 @@ const MemberDebtDialog = ({ open, member, onClose }) => {
                 <TableCell>
                   {new Date(debt.debtDate).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{debt.description}</TableCell>
+                <TableCell style={{ whiteSpace: "pre-line" }}>
+                  {debt.description}
+                </TableCell>
                 <TableCell>
                   {!debt.isPaid && (
                     <Button

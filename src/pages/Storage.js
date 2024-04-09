@@ -159,7 +159,9 @@ export default function Storage() {
                   </TableCell>
                   <TableCell>{storage.price}</TableCell>
                   <TableCell>{storage.remainingPrice}</TableCell>
-                  <TableCell>{storage.description}</TableCell>
+                  <TableCell style={{ whiteSpace: "pre-line" }}>
+                    {storage.description}
+                  </TableCell>
                 </TableRow>
               );
             })}

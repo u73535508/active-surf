@@ -160,7 +160,9 @@ export default function Expense() {
                   <TableCell>{date}</TableCell>
                   <TableCell>{expense.price}</TableCell>
                   <TableCell>{expense.expenseName}</TableCell>
-                  <TableCell>{expense.description}</TableCell>
+                  <TableCell style={{ whiteSpace: "pre-line" }}>
+                    {expense.description}
+                  </TableCell>
                   <TableCell>
                     <Button
                       variant="contained"

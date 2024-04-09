@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-export default function DescriptionDialog({ service, onClose }) {
+export default function PriceDialog({ service, onClose }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  const handleDescription = async () => {
+  const handlePrice = async () => {
     if (!token) {
       navigate("/");
       return;
@@ -29,13 +29,23 @@ export default function DescriptionDialog({ service, onClose }) {
         : service.campType
         ? "Camp"
         : "Rent";
-
+      const priceDifference = service.price - price;
+      // service was 1000 tl, now 500 tl => difference is positive (subtraction)
+      // service was 1000 tl, now 1500 tl -> difference is negative (addition)
+      const remainingPrice = service.remainingPrice - priceDifference;
+      if (remainingPrice < 0) {
+        alert(
+          "Güncellemek istediğiniz fiyattan fazlasını üye ödemiş gözüküyor."
+        );
+        return;
+      }
       if (serviceType === "Lesson") {
         await axios.post(
           `https://active-surf-api.onrender.com/lesson/saveLesson`,
           {
             ...service,
-            description,
+            price,
+            remainingPrice,
           },
           {
             headers: {
@@ -48,8 +58,8 @@ export default function DescriptionDialog({ service, onClose }) {
           `https://active-surf-api.onrender.com/storage/saveStorage`,
           {
             ...service,
-
-            description,
+            remainingPrice,
+            price,
           },
           {
             headers: {
@@ -63,8 +73,8 @@ export default function DescriptionDialog({ service, onClose }) {
 
           {
             ...service,
-
-            description,
+            remainingPrice,
+            price,
           },
           {
             headers: {
@@ -77,8 +87,8 @@ export default function DescriptionDialog({ service, onClose }) {
           `https://active-surf-api.onrender.com/api/rent/saveRent`,
           {
             ...service,
-
-            description,
+            remainingPrice,
+            price,
           },
           {
             headers: {
@@ -91,7 +101,8 @@ export default function DescriptionDialog({ service, onClose }) {
           `https://active-surf-api.onrender.com/api/camp/saveCamp`,
           {
             ...service,
-            description,
+            price,
+            remainingPrice,
           },
           {
             headers: {
@@ -100,7 +111,18 @@ export default function DescriptionDialog({ service, onClose }) {
           }
         );
       }
-
+      await axios.post(
+        `https://active-surf-api.onrender.com/api/member/updateMembersDebt`,
+        {
+          memberId: service.memberId,
+          amount: -1 * priceDifference,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error("Error saving description:", error.response.data.error);
@@ -108,20 +130,19 @@ export default function DescriptionDialog({ service, onClose }) {
     }
   };
 
-  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(service.price);
   return (
     <Dialog open={true} onClose={onClose}>
-      <DialogTitle>Not Ekle</DialogTitle>
+      <DialogTitle>Fiyat Güncelle</DialogTitle>
       <DialogContent>
         <Box marginBottom={3} marginTop={4}>
           <TextField
-            multiline
             fullWidth
             required
             label="Not"
-            type="string"
-            defaultValue={service.description}
-            onChange={(e) => setDescription(e.target.value)}
+            type="number"
+            defaultValue={service.price}
+            onChange={(e) => setPrice(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
@@ -129,8 +150,8 @@ export default function DescriptionDialog({ service, onClose }) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="primary" onClick={handleDescription}>
-          Notu Kaydet
+        <Button variant="contained" color="primary" onClick={handlePrice}>
+          Fiyat Güncelle
         </Button>
         <Button variant="contained" color="secondary" onClick={onClose}>
           İptal

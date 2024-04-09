@@ -172,7 +172,9 @@ export default function Lesson() {
                   <TableCell>{lesson.price}</TableCell>
                   <TableCell>{lesson.remainingPrice}</TableCell>
                   <TableCell>{serviceType}</TableCell>
-                  <TableCell>{lesson.description}</TableCell>
+                  <TableCell style={{ whiteSpace: "pre-line" }}>
+                    {lesson.description}
+                  </TableCell>
                 </TableRow>
               );
             })}

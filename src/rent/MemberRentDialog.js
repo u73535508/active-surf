@@ -165,7 +165,9 @@ const MemberRentDialog = ({ open, member, onClose }) => {
                 </TableCell>
                 <TableCell>{rent.price}</TableCell>
                 <TableCell>{rent.remainingPrice}</TableCell>
-                <TableCell>{rent.description}</TableCell>
+                <TableCell style={{ whiteSpace: "pre-line" }}>
+                  {rent.description}
+                </TableCell>
                 <TableCell>
                   {rent.remainingPrice !== rent.price && (
                     <Button

@@ -132,7 +132,9 @@ const MemberStorageDialog = ({ open, member, onClose }) => {
                 </TableCell>
                 <TableCell>{storage.price}</TableCell>
                 <TableCell>{storage.remainingPrice}</TableCell>
-                <TableCell>{storage.description}</TableCell>
+                <TableCell style={{ whiteSpace: "pre-line" }}>
+                  {storage.description}
+                </TableCell>
                 <TableCell>
                   {storage.remainingPrice !== storage.price && (
                     <Button

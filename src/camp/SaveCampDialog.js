@@ -214,6 +214,7 @@ const SaveCampDialog = ({ open, member, onClose }) => {
           label="Not"
           type="string"
           fullWidth
+          multiline
           margin="normal"
           value={description}
           onChange={(e) => setDescription(e.target.value)}

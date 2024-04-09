@@ -161,7 +161,9 @@ export default function Rent() {
                   </TableCell>
                   <TableCell>{rent.price}</TableCell>
                   <TableCell>{rent.remainingPrice}</TableCell>
-                  <TableCell>{rent.description}</TableCell>
+                  <TableCell style={{ whiteSpace: "pre-line" }}>
+                    {rent.description}
+                  </TableCell>
                 </TableRow>
               );
             })}

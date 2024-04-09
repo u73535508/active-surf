@@ -147,7 +147,9 @@ export default function Debt() {
                   </TableCell>
                   <TableCell>{debt.price}</TableCell>
                   <TableCell>{debt.remainingPrice}</TableCell>
-                  <TableCell>{debt.description}</TableCell>
+                  <TableCell style={{ whiteSpace: "pre-line" }}>
+                    {debt.description}
+                  </TableCell>
                 </TableRow>
               );
             })}

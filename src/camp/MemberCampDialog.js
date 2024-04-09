@@ -17,6 +17,7 @@ import LessonDateForm from "../lesson/LessonDateForm";
 import LessonDates from "../lesson/LessonDates";
 import ShowPaymentForm from "../payment/ShowPaymentForm";
 import DescriptionDialog from "../DescriptiptionDialog";
+import PriceDialog from "../PriceDialog";
 
 const MemberCampDialog = ({ open, member, onClose }) => {
   const [camps, setCamps] = useState([]);
@@ -30,6 +31,7 @@ const MemberCampDialog = ({ open, member, onClose }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [descriptionDialogVisible, setDescriptionDialogVisible] =
     useState(false);
+  const [priceDialogVisible, setPriceDialogVisible] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -111,11 +113,21 @@ const MemberCampDialog = ({ open, member, onClose }) => {
     setSelectedCamp(camp);
     setDescriptionDialogVisible(true);
   };
+  const handleChangePrice = (camp) => {
+    setSelectedCamp(camp);
+    setPriceDialogVisible(true);
+  };
   const handleTableRowClick = (index) => {
     setSelectedRow(index === selectedRow ? null : index);
   };
   return (
     <div>
+      {priceDialogVisible && (
+        <PriceDialog
+          service={selectedCamp}
+          onClose={() => setDescriptionDialogVisible(false)}
+        />
+      )}
       {descriptionDialogVisible && (
         <DescriptionDialog
           service={selectedCamp}
@@ -208,7 +220,9 @@ const MemberCampDialog = ({ open, member, onClose }) => {
                 <TableCell>
                   {new Date(camp.endDate).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{camp.description}</TableCell>
+                <TableCell style={{ whiteSpace: "pre-line" }}>
+                  {camp.description}
+                </TableCell>
                 <TableCell>
                   {!camp.isPaid && (
                     <Button
@@ -259,6 +273,13 @@ const MemberCampDialog = ({ open, member, onClose }) => {
                     onClick={() => handleAddDescription(camp)}
                   >
                     Not Düzenle
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleChangePrice(camp)}
+                  >
+                    Fiyat Hüncelle
                   </Button>
                 </TableCell>
               </TableRow>

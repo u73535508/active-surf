@@ -204,7 +204,9 @@ const MemberLessonDialog = ({ open, member, onClose }) => {
                 <TableCell>
                   {new Date(lesson.endDate).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{lesson.description}</TableCell>
+                <TableCell style={{ whiteSpace: "pre-line" }}>
+                  {lesson.description}
+                </TableCell>
                 <TableCell>
                   {!lesson.isPaid && (
                     <Button
