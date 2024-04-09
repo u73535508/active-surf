@@ -32,7 +32,7 @@ export default function DescriptionDialog({ service, onClose }) {
 
       if (serviceType === "Lesson") {
         await axios.post(
-          `https://active-surf-api.onrender.com/lesson/saveLesson`,
+          `https://active-surf-api.onrender.com/lesson/api/saveLesson`,
           {
             ...service,
             description,
@@ -45,7 +45,7 @@ export default function DescriptionDialog({ service, onClose }) {
         );
       } else if (serviceType === "Storage") {
         await axios.post(
-          `https://active-surf-api.onrender.com/storage/saveStorage`,
+          `https://active-surf-api.onrender.com/api/storage/saveStorage`,
           {
             ...service,
 

@@ -41,9 +41,10 @@ export default function PriceDialog({ service, onClose }) {
       }
       if (serviceType === "Lesson") {
         await axios.post(
-          `https://active-surf-api.onrender.com/lesson/saveLesson`,
+          `https://active-surf-api.onrender.com/api/lesson/saveLesson`,
           {
             ...service,
+            isPaid: remainingPrice === 0,
             price,
             remainingPrice,
           },
@@ -55,9 +56,10 @@ export default function PriceDialog({ service, onClose }) {
         );
       } else if (serviceType === "Storage") {
         await axios.post(
-          `https://active-surf-api.onrender.com/storage/saveStorage`,
+          `https://active-surf-api.onrender.com/api/storage/saveStorage`,
           {
             ...service,
+            isPaid: remainingPrice === 0,
             remainingPrice,
             price,
           },
@@ -73,6 +75,7 @@ export default function PriceDialog({ service, onClose }) {
 
           {
             ...service,
+            isPaid: remainingPrice === 0,
             remainingPrice,
             price,
           },
@@ -88,6 +91,7 @@ export default function PriceDialog({ service, onClose }) {
           {
             ...service,
             remainingPrice,
+            isPaid: remainingPrice === 0,
             price,
           },
           {
@@ -103,6 +107,7 @@ export default function PriceDialog({ service, onClose }) {
             ...service,
             price,
             remainingPrice,
+            isPaid: remainingPrice === 0,
           },
           {
             headers: {
