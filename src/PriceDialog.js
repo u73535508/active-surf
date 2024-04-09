@@ -33,6 +33,10 @@ export default function PriceDialog({ service, onClose }) {
       // service was 1000 tl, now 500 tl => difference is positive (subtraction)
       // service was 1000 tl, now 1500 tl -> difference is negative (addition)
       const remainingPrice = service.remainingPrice - priceDifference;
+      if (price <= 0) {
+        alert("Fiyat sıfırdan büyük olmalıdır.");
+        return;
+      }
       if (remainingPrice < 0) {
         alert(
           "Güncellemek istediğiniz fiyattan fazlasını üye ödemiş gözüküyor."
@@ -144,7 +148,7 @@ export default function PriceDialog({ service, onClose }) {
           <TextField
             fullWidth
             required
-            label="Not"
+            label="Fiyat"
             type="number"
             defaultValue={service.price}
             onChange={(e) => setPrice(e.target.value)}
