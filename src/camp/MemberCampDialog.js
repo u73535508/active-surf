@@ -279,7 +279,7 @@ const MemberCampDialog = ({ open, member, onClose }) => {
                     color="secondary"
                     onClick={() => handleChangePrice(camp)}
                   >
-                    Fiyat Hüncelle
+                    Fiyat Güncelle
                   </Button>
                 </TableCell>
               </TableRow>
