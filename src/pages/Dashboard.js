@@ -26,12 +26,15 @@ import SaveDebtDialog from "../debt/SaveDebtDialog";
 import MemberDebtDialog from "../debt/MemberDebtDialog";
 import SaveMember, { ModalContent } from "../member/SaveMember";
 import SaveExpense from "../SaveExpense";
+import PaymentForm from "../payment/PaymentForm";
 
 const Dashboard = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const [saveMemberComponentVisible, setSaveMemberComponentVisible] =
+    useState(false);
+  const [saveCantinComponentVisible, setSaveCantinComponentVisible] =
     useState(false);
   const [saveTeacherComponentVisible, setSaveTeacherComponentVisible] =
     useState(false);
@@ -84,6 +87,7 @@ const Dashboard = () => {
     setSearchTerm("");
     setSaveTeacherComponentVisible(false);
     setSaveExpenseComponentVisible(false);
+    setSaveCantinComponentVisible(false);
   };
   const handleLogout = async () => {
     localStorage.removeItem("token");
@@ -93,6 +97,9 @@ const Dashboard = () => {
   const handleSaveMember = (member) => {
     setMemberToSave(member);
     setSaveMemberComponentVisible(true);
+  };
+  const handleSaveCantinPayment = (member) => {
+    setSaveCantinComponentVisible(true);
   };
   const handleSaveTeacher = () => {
     setSaveTeacherComponentVisible(true);
@@ -291,6 +298,18 @@ const Dashboard = () => {
               }}
               variant="contained"
               color="primary"
+              onClick={() => handleSaveCantinPayment(null)}
+            >
+              Kantin Ödemesi Ekle
+            </Button>
+            <Button
+              style={{
+                display: "flex",
+                marginBottom: "15px",
+                justifyContent: "center",
+              }}
+              variant="contained"
+              color="primary"
               onClick={() => handleSaveTeacher(null)}
             >
               Hoca Ekle
@@ -470,6 +489,20 @@ const Dashboard = () => {
           }}
         >
           <SaveMember onClose={handleClose} memberToSave={memberToSave} />
+        </Modal>
+      )}
+      {saveCantinComponentVisible && (
+        <Modal
+          open={saveCantinComponentVisible}
+          onClose={handleClose}
+          closeAfterTransition
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <PaymentForm onClose={handleClose} />
         </Modal>
       )}
       {deleteMemberComponentVisible && (

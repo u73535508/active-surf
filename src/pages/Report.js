@@ -90,7 +90,26 @@ export default function Report() {
       pdf.save("download.pdf");
     });
   };
-
+  const handleDeletePayment = async (paymentId) => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
+    try {
+      await axios.delete(
+        `https://active-surf-api.onrender.com/api/payment/deletePayment/${paymentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting payment:", error);
+      alert(error.response.data.error);
+    }
+  };
   return (
     <div>
       <Button
@@ -144,14 +163,15 @@ export default function Report() {
               <TableCell>Kur</TableCell>
               <TableCell>Hizmet Adı</TableCell>
               <TableCell>Hizmet Alan</TableCell>
+              <TableCell>Not</TableCell>
+              <TableCell>Sil</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {payments?.map((payment, index) => {
               const date = new Date(payment.date).toLocaleDateString();
               const paymentType = PaymentTypes[payment.type] || "Bilinmeyen";
-              const serviceType =
-                ServiceTypes[payment.serviceType] || "Bilinmeyen";
+              const serviceType = ServiceTypes[payment.serviceType] || "Kantin";
 
               return (
                 <TableRow key={index}>
@@ -161,6 +181,17 @@ export default function Report() {
                   <TableCell>{payment.rate}</TableCell>
                   <TableCell>{serviceType}</TableCell>
                   <TableCell>{payment.memberName}</TableCell>
+                  <TableCell>{payment.description}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDeletePayment(payment._id)}
+                      className="print-hide" // Bu sınıfı tanımlamanız gerekiyor
+                    >
+                      Sil
+                    </Button>
+                  </TableCell>
                 </TableRow>
               );
             })}

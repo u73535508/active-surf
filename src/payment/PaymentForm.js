@@ -18,7 +18,7 @@ export default function PaymentForm({ member, service, onClose }) {
   console.log(service);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  const [description, setDescription] = useState("");
   const [paymentDate, setPaymentDate] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [paymentType, setPaymentType] = useState("");
@@ -29,10 +29,6 @@ export default function PaymentForm({ member, service, onClose }) {
       return;
     }
     try {
-      if (paymentAmount > service.remainingPrice) {
-        alert("Ödeme miktarı kalan ücretten fazla olamaz.");
-        return;
-      }
       if (paymentAmount <= 0) {
         alert("Ödeme miktarı 0'dan büyük olmalıdır.");
         return;
@@ -47,6 +43,33 @@ export default function PaymentForm({ member, service, onClose }) {
       }
       if (paymentType === "currency" && !rate) {
         alert("Lütfen bir kur giriniz.");
+        return;
+      }
+      console.log("service", service);
+      console.log("member", member);
+      if (service === undefined && member === undefined) {
+        await axios.post(
+          `https://active-surf-api.onrender.com/api/payment/savePayment`,
+          {
+            date: paymentDate,
+            amount: paymentAmount,
+            type: paymentType,
+            description: description,
+            rate: rate,
+            serviceType: "Cantin",
+            memberName: "Kantin Müşteri",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        window.location.reload();
+        return;
+      }
+      if (paymentAmount > service.remainingPrice) {
+        alert("Ödeme miktarı kalan ücretten fazla olamaz.");
         return;
       }
       const isServicePaid = service.remainingPrice - paymentAmount === 0;
@@ -231,6 +254,21 @@ export default function PaymentForm({ member, service, onClose }) {
             }}
           />
         </Box>
+        {!service && (
+          <Box marginBottom={2}>
+            <TextField
+              multiline
+              fullWidth
+              required
+              label="Not"
+              type="string"
+              onChange={(e) => setDescription(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Box>
+        )}
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="primary" onClick={handlePayment}>
