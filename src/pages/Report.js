@@ -172,7 +172,6 @@ export default function Report() {
               const date = new Date(payment.date).toLocaleDateString();
               const paymentType = PaymentTypes[payment.type] || "Bilinmeyen";
               const serviceType = ServiceTypes[payment.serviceType] || "Kantin";
-
               return (
                 <TableRow key={index}>
                   <TableCell>{date}</TableCell>
@@ -183,14 +182,16 @@ export default function Report() {
                   <TableCell>{payment.memberName}</TableCell>
                   <TableCell>{payment.description}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => handleDeletePayment(payment._id)}
-                      className="print-hide" // Bu sınıfı tanımlamanız gerekiyor
-                    >
-                      Sil
-                    </Button>
+                    {serviceType === "Kantin" && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleDeletePayment(payment._id)}
+                        className="print-hide" // Bu sınıfı tanımlamanız gerekiyor
+                      >
+                        Sil
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               );
